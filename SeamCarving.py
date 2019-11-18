@@ -50,9 +50,6 @@ class SeamCarving():
 
     def computeEnergy(self, img):
         """ エネルギーマップを計算するメソッド """
-        # ★以下，コードを追加（STEP 1）★
-
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # グレースケールに変換する
 
         # 一次微分
         xSobel = np.abs(cv2.Sobel(img, cv2.CV_64F, 1, 0)) # Sobelフィルタ x方向
@@ -66,7 +63,6 @@ class SeamCarving():
         height, width = img.shape[0:2] # 高さと幅を取る
         im = np.zeros((height, width)) # 配列初期化
         im = img[:, :, 0] + img[:, :, 1] + img[:, :, 2] # 2次元に変換する
-        # im = (im - np.min(im)) / (np.max(im) - np.min(im)) # 正規化
 
         out = im
         #print(out.shape)
@@ -78,7 +74,6 @@ class SeamCarving():
 
         height, width = energy_map.shape[0:2]
         seam = np.zeros((height), dtype=np.int32)
-        # ★以下，コードを追加（STEP 2）★
 
         im = energy_map
         im = np.pad(im, [(0, 0), (1, 1)], mode="edge") # 両サイドをコピーする
@@ -111,8 +106,6 @@ class SeamCarving():
         for i in range(height):
             out[i,:seam[i],:] = img[i,:seam[i],:]
             out[i,seam[i]:,:] = img[i,seam[i]+1:,:]
-
-        # print(out.shape)
 
         return out
 
